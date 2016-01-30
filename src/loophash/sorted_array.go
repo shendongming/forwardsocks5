@@ -1,7 +1,7 @@
 package loophash
 
 import (
-	"fmt"
+
 )
 
 type SortInt32Array struct {
@@ -17,11 +17,11 @@ func NewSortInt32Array() *SortInt32Array {
 func (s *SortInt32Array) Insert(value int32) int {
 
 	pos := s.search(value)
-	fmt.Printf("data :%v value:%v\n", (s.data), value)
-	fmt.Printf("search value:%v,pos:%v,len:%v\n", value, pos, len(s.data))
+//	fmt.Printf("data :%v value:%v\n", (s.data), value)
+//	fmt.Printf("search value:%v,pos:%v,len:%v\n", value, pos, len(s.data))
 	s.insert_pos(pos, value)
 
-	fmt.Printf("data result:%v\n", s.data)
+
 	return pos
 }
 
@@ -35,10 +35,10 @@ func (s *SortInt32Array) Remove(value int32) int {
 	if s.data[pos] != value {
 		return -1
 	}
-	fmt.Println("find ok", pos)
+
 	tmp := append([]int32{}, s.data[:pos]...)
 	s.data = append(tmp, s.data[pos + 1:]...)
-	fmt.Printf("data result:%v", s.data)
+
 	return pos
 }
 
@@ -51,15 +51,17 @@ func (s *SortInt32Array) insert_pos(pos int, value int32) {
 	//分解为2个部分
 	tmp := append([]int32{}, s.data[pos:]...)
 
-	fmt.Printf("pos:%v\n", pos)
-	fmt.Printf("tmp:%v\n", tmp)
 	s.data = append(s.data[0:pos], value)
-	fmt.Printf("data:%v\n", s.data)
+
 	s.data = append(s.data, tmp...)
-	fmt.Printf("data:%v\n", s.data)
+
 
 }
 
+func (s *SortInt32Array) FindNextValue(value int32) int32   {
+ 	pos:=s.FindNextIndex(value)
+	return s.data[pos]
+}
 //找到最近邻的一个元素
 func (s *SortInt32Array) FindNextIndex(value int32) int   {
 
@@ -94,7 +96,7 @@ func (s *SortInt32Array) search(value int32) int {
 	return last_pos
 }
 
-//二分查找到合适的位置
+//todo: 二分查找到合适的位置
 func (s *SortInt32Array) search_quick(value int32) int {
 	data_len := len(s.data)
 	if data_len == 0 {
