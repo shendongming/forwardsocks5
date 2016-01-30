@@ -2,6 +2,17 @@ package loophash
 
 /**
 循环 一致性hash 简单的实现
+这个差距有点不均匀呀
+stats:node6,44
+stats:node7,67
+stats:node5,163
+stats:node8,26
+stats:node1,105
+stats:node0,132
+stats:node3,107
+stats:node2,110
+stats:node9,97
+stats:node4,149
  */
 import (
 	"hash/crc32"
@@ -13,32 +24,32 @@ var virtual_node int = 18
 
 type HashNode struct {
 
-	nodes          map[string]int32 //节点列表
-	nodes_id       map[int32]string //节点列表
-	pos            int32            //id 计数器
+	nodes          map[string]uint32 //节点列表
+	nodes_id       map[uint32]string //节点列表
+	pos            uint32            //id 计数器
 	nodes_id_array *SortInt32Array  //id 列表
 }
 
 func NewHashNode() *HashNode {
 	h := &HashNode{
 		pos:0,
-		nodes: make(map[string]int32),
-		nodes_id: make(map[int32]string),
+		nodes: make(map[string]uint32),
+		nodes_id: make(map[uint32]string),
 		nodes_id_array: NewSortInt32Array(),
 	}
 	return h
 }
 
 
-func (h * HashNode)AddNode(name string) int32 {
-	var last_node int32
+func (h * HashNode)AddNode(name string) uint32 {
+	var last_node uint32
 	for i := 0; i < virtual_node; i++ {
 		last_node = h._AddNode(fmt.Sprintf("%s-%d", name, i))
 	}
 	return last_node
 }
-func (h * HashNode)_AddNode(name string) int32 {
-	var node_id int32
+func (h * HashNode)_AddNode(name string) uint32 {
+	var node_id uint32
 	node_id, ok := h.nodes[name]
 	if ok {
 		return node_id
@@ -54,18 +65,18 @@ func (h * HashNode)_AddNode(name string) int32 {
 	return h.nodes[name]
 }
 
-func (h * HashNode)RemoveNode(name string) int32 {
-	var last_node int32
+func (h * HashNode)RemoveNode(name string) uint32 {
+	var last_node uint32
 	for i := 0; i < virtual_node; i++ {
 		last_node = h.RemoveNode(fmt.Sprintf("%s-%d", name, i))
 	}
 	return last_node
 }
 
-func (h * HashNode)_RemoveNode(name string) int32 {
+func (h * HashNode)_RemoveNode(name string) uint32 {
 	node_id, ok := h.nodes[name]
 	if !ok {
-		return -1
+		return 0
 	}
 	h.nodes_id_array.Remove(node_id)
 	delete(h.nodes, name)
@@ -73,18 +84,15 @@ func (h * HashNode)_RemoveNode(name string) int32 {
 	return node_id
 }
 
-func (h * HashNode)getHashNodeId(str string) int32 {
-	crc := crc32.New(crc32.IEEETable)
-	crc.Write([]byte(str))
-	id2 := int32(crc.Sum32())
-	return id2
+func (h * HashNode)getHashNodeId(str string) uint32 {
+	return crc32.ChecksumIEEE([]byte(str))
+
 }
 func (h * HashNode)FindHashNode(str string) string {
 
 
-	crc := crc32.New(crc32.IEEETable)
-	crc.Write([]byte(str))
-	id2 := int32(crc.Sum32())
+
+	id2:=crc32.ChecksumIEEE([]byte(str))
 
 	index := h.nodes_id_array.FindNextValue(id2)
 	name:= h.nodes_id[index]

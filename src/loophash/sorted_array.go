@@ -6,15 +6,15 @@ import (
 
 type SortInt32Array struct {
 
-	data []int32
+	data []uint32
 }
 
 func NewSortInt32Array() *SortInt32Array {
-	s := &SortInt32Array{data:make([]int32, 0)}
+	s := &SortInt32Array{data:make([]uint32, 0)}
 	return s
 }
 
-func (s *SortInt32Array) Insert(value int32) int {
+func (s *SortInt32Array) Insert(value uint32) int {
 
 	pos := s.search(value)
 //	fmt.Printf("data :%v value:%v\n", (s.data), value)
@@ -27,7 +27,7 @@ func (s *SortInt32Array) Insert(value int32) int {
 
 
 //删除元素
-func (s *SortInt32Array) Remove(value int32) int {
+func (s *SortInt32Array) Remove(value uint32) int {
 	pos := s.search(value)
 	if pos >= len(s.data) {
 		return -1
@@ -36,20 +36,20 @@ func (s *SortInt32Array) Remove(value int32) int {
 		return -1
 	}
 
-	tmp := append([]int32{}, s.data[:pos]...)
+	tmp := append([]uint32{}, s.data[:pos]...)
 	s.data = append(tmp, s.data[pos + 1:]...)
 
 	return pos
 }
 
 
-func (s *SortInt32Array) insert_pos(pos int, value int32) {
+func (s *SortInt32Array) insert_pos(pos int, value uint32) {
 	if pos > len(s.data) {
 		s.data = append(s.data, value)
 		return
 	}
 	//分解为2个部分
-	tmp := append([]int32{}, s.data[pos:]...)
+	tmp := append([]uint32{}, s.data[pos:]...)
 
 	s.data = append(s.data[0:pos], value)
 
@@ -58,12 +58,12 @@ func (s *SortInt32Array) insert_pos(pos int, value int32) {
 
 }
 
-func (s *SortInt32Array) FindNextValue(value int32) int32   {
+func (s *SortInt32Array) FindNextValue(value uint32) uint32   {
  	pos:=s.FindNextIndex(value)
 	return s.data[pos]
 }
 //找到最近邻的一个元素
-func (s *SortInt32Array) FindNextIndex(value int32) int   {
+func (s *SortInt32Array) FindNextIndex(value uint32) int   {
 
 	//这里使用顺序查询
 	last_pos:=-1
@@ -81,7 +81,7 @@ func (s *SortInt32Array) FindNextIndex(value int32) int   {
 }
 
 //升序保存
-func (s *SortInt32Array) search(value int32) int {
+func (s *SortInt32Array) search(value uint32) int {
 	last_pos:=-1
 	for pos,item :=range s.data{
 		if value<=item{
@@ -97,7 +97,7 @@ func (s *SortInt32Array) search(value int32) int {
 }
 
 //todo: 二分查找到合适的位置
-func (s *SortInt32Array) search_quick(value int32) int {
+func (s *SortInt32Array) search_quick(value uint32) int {
 	data_len := len(s.data)
 	if data_len == 0 {
 		return 0

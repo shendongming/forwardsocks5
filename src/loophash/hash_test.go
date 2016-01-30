@@ -17,7 +17,7 @@ func Test_Run(t *testing.T) {
 
 	node_stats :=make(map[string]int)
 
-	for a := 0; a < 1000; a++{
+	for a := 0; a < 10000; a++{
 		name := h.FindHashNode(fmt.Sprintf("abc-%d" ,a))
 		_,ok:=node_stats[name]
 		if !ok{
@@ -26,5 +26,8 @@ func Test_Run(t *testing.T) {
 		node_stats[name]++
 
 	}
-	fmt.Printf("stats:%v",node_stats)
+	for k,v :=range node_stats{
+
+		fmt.Printf("stats:%s,%v\n",k,v)
+	}
 }

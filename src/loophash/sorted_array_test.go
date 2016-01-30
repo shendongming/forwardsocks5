@@ -47,7 +47,7 @@ func Test_Sort_Array_insert2(t *testing.T) {
 		{1, 0},
 	}
 	for _, v := range test_cace {
-		if v[1] != h.Insert(int32(v[0])) {
+		if v[1] != h.Insert(uint32(v[0])) {
 			t.Error("test insert tail")
 		}
 	}
@@ -65,7 +65,7 @@ func Test_Sort_Array_Find(t *testing.T) {
 		{11, 0},
 	}
 	for _, v := range test_cace {
-		if v[1] != h.Insert(int32(v[0])) {
+		if v[1] != h.Insert(uint32(v[0])) {
 			t.Error("test insert tail")
 		}
 	}
@@ -76,7 +76,7 @@ func Test_Sort_Array_Find(t *testing.T) {
 		{88, 4},
 	}
 	for _, v := range test_cace2 {
-		ret := h.FindNextIndex(int32(v[0]))
+		ret := h.FindNextIndex(uint32(v[0]))
 		if v[1] != ret {
 			t.Error("test find tail:", v[0], v[1], ret)
 		}
@@ -96,7 +96,7 @@ func Test_Sort_Array_remove(t *testing.T) {
 		{1, 0},
 	}
 	for _, v := range test_cace {
-		if v[1] != h.Insert(int32(v[0])) {
+		if v[1] != h.Insert(uint32(v[0])) {
 			t.Error("test insert tail")
 		}
 	}
