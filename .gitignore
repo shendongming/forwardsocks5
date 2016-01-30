@@ -3,7 +3,6 @@ out
 .~lock.*#
 ### pycharm
 node_modules
-.idea
 *.env
 /logs/*
 ### Xcode template
