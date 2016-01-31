@@ -13,6 +13,7 @@ func Usage() {
 }
 func main() {
 	name := flag.String("name", "", "Input server name")
+	signKey := flag.String("key", "", "Input Sign key")
 	port := flag.Int("socks5", 1086, "Listen socks5 proxy server port")
 	port2 := flag.Int("work", 1088, "Listen work server port")
 	flag.Parse()
@@ -22,8 +23,9 @@ func main() {
 	}
 	addr := fmt.Sprintf(":%d" ,*port)
 	addr2 := fmt.Sprintf(":%d" ,*port2)
-	ser := socks5server.NewServer(addr,addr2)
-	println(*name)
+	ser := socks5server.NewServer(addr,addr2,*signKey)
+	println("sign key:",*name)
+	println("sign key:",*signKey)
 	println("socks5 addr",addr,"workd addr:",addr2)
 	err:=ser.ListenAndServe()
 	println("error",err)
